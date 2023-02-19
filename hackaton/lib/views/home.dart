@@ -9,6 +9,7 @@ import 'package:hackaton/utils/icons.dart';
 import 'package:hackaton/views/checkout.dart';
 import 'package:hackaton/views/order_done.dart';
 import 'package:hackaton/utils/productlist.dart';
+import 'package:hackaton/views/product_description.dart';
 
 class home_view extends StatefulWidget {
   const home_view({super.key});
@@ -23,6 +24,7 @@ List plant_widget_colors = [
   Selectcolor().plant_widget_bg_color_2,
   Selectcolor().plant_widget_bg_color_3,
   Selectcolor().plant_widget_bg_color_4,
+  Selectcolor().plant_widget_bg_color_3,
 ];
 
 class _home_viewState extends State<home_view> {
@@ -226,161 +228,155 @@ class _home_viewState extends State<home_view> {
         ));
   }
 
-  Widget plants_widget({bg_color}) {
+  Widget plants_widget() {
     return Container(
         child: StreamBuilder(
             stream: _database.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-              return ListView.builder(
-                itemCount: streamSnapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  final DocumentSnapshot documentSnapshot =
-                      streamSnapshot.data!.docs[index];
+              if (streamSnapshot.hasData) {
+                return ListView.builder(
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot =
+                        streamSnapshot.data!.docs[index];
 
-                  return Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.bottomLeft,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: MediaQuery.of(context).size.height * 0.32,
-                        // color: Colors.green,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: MediaQuery.of(context).size.height * 0.06,
-                              left: 0,
-                              child: Container(
-                                alignment: Alignment.bottomLeft,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                                decoration: BoxDecoration(
-                                  // color: Colors.red,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    Image.asset(
-                                        "assets/home_product_widget_bg.png",
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.8,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.25,
-                                        color: plant_widget_colors[index],
-                                        fit: BoxFit.contain),
-                                    Image.asset(
-                                      "assets/product_description_vector.png",
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.25,
-                                      fit: BoxFit.contain,
+                    var productID;
+                    return InkWell(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => product_description_view(
+                              documentSnapshot: documentSnapshot,
+                            ),
+                          )),
+                      child: Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.bottomLeft,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.32,
+                            // color: Colors.green,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                  left: 0,
+                                  child: Container(
+                                    alignment: Alignment.bottomLeft,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.25,
+                                    decoration: BoxDecoration(
+                                      // color: Colors.red,
+                                      borderRadius: BorderRadius.circular(30),
                                     ),
-                                    Positioned(
-                                      left: MediaQuery.of(context).size.width *
-                                          0.1,
-                                      top: MediaQuery.of(context).size.height *
-                                          0.02,
-                                      bottom:
-                                          MediaQuery.of(context).size.height *
-                                              0.02,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
+                                    child: Stack(
+                                      children: [
+                                        Image.asset(
+                                            "assets/home_product_widget_bg.png",
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.4,
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  "Air Purifier",
-                                                  // textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          MediaQuery.of(context)
+                                                0.8,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.25,
+                                            color: plant_widget_colors[index],
+                                            fit: BoxFit.contain),
+                                        Image.asset(
+                                          "assets/product_description_vector.png",
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.8,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.25,
+                                          fit: BoxFit.contain,
+                                        ),
+                                        Positioned(
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          top: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02,
+                                          bottom: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.4,
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Air Purifier",
+                                                      // textAlign: TextAlign.start,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
                                                                   .size
                                                                   .height *
                                                               0.02,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Selectcolor()
-                                                          .text_blue_order_color),
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.05,
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/product_description_vector_2.png",
-                                                    width:
-                                                        MediaQuery.of(context)
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Selectcolor()
+                                                              .text_blue_order_color),
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05,
+                                                    ),
+                                                    Container(
+                                                      child: Image.asset(
+                                                        "assets/product_description_vector_2.png",
+                                                        width: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width *
                                                             0.05,
-                                                    height:
-                                                        MediaQuery.of(context)
+                                                        height: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .height *
                                                             0.05,
-                                                    fit: BoxFit.contain,
-                                                  ),
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.0001,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.5,
-                                            child: Text(
-                                              documentSnapshot['name'],
-                                              // textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.03,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Selectcolor()
-                                                      .text_blue_order_color),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01,
-                                          ),
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.05,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "\$${documentSnapshot['price'].toString()}",
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.0001,
+                                              ),
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.5,
+                                                child: Text(
+                                                  documentSnapshot['name'],
                                                   // textAlign: TextAlign.start,
                                                   style: TextStyle(
                                                       fontSize:
@@ -393,123 +389,204 @@ class _home_viewState extends State<home_view> {
                                                       color: Selectcolor()
                                                           .text_blue_order_color),
                                                 ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.05,
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    if (favourite == false) {
-                                                      // documentSnapshot[index]
-                                                      //   ['favourite']
-                                                      setState(() {
-                                                        favourite = true;
-                                                        // _favourite.add(
-                                                        //     documentSnapshot[
-                                                        //         index]);
-                                                      });
-                                                    } else if (favourite =
-                                                        true) {
-                                                      //     String? id;
-                                                      // _favourite
-                                                      //     .doc(id)
-                                                      //     .delete();
-                                                      setState(() {
-                                                        favourite = false;
-                                                      });
-                                                    }
-                                                    print(_favourite);
-                                                  },
-                                                  child: Container(
-                                                    child: Image.asset(
-                                                      "assets/product_description_icon_btn_2.png",
-                                                      color: favourite == true
-                                                          ? Selectcolor()
-                                                              .red_favourite
-                                                          : Selectcolor()
-                                                              .text_blue_order_color,
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.01,
+                                              ),
+                                              Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.05,
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "\$${documentSnapshot['price'].toString()}",
+                                                      // textAlign: TextAlign.start,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.03,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Selectcolor()
+                                                              .text_blue_order_color),
+                                                    ),
+                                                    SizedBox(
                                                       width:
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
+                                                              0.05,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        if (documentSnapshot[
+                                                                        index][
+                                                                    "favourite"] ==
+                                                                false &&
+                                                            favourite ==
+                                                                false) {
+                                                          // documentSnapshot[index]
+                                                          //   ['favourite']
+
+                                                          favourite = true;
+
+                                                          _database
+                                                              .doc(
+                                                                  documentSnapshot[
+                                                                      index])
+                                                              .update({
+                                                            'favourite':
+                                                                documentSnapshot[
+                                                                            index]
+                                                                        [
+                                                                        "favourite"] =
+                                                                    favourite
+                                                          });
+
+                                                          _favourite.add(
+                                                              documentSnapshot[
+                                                                  index]);
+                                                        } else if (documentSnapshot[
+                                                                        index][
+                                                                    "favourite"] ==
+                                                                true &&
+                                                            favourite == true) {
+                                                          // documentSnapshot[index]
+                                                          //   ['favourite']
+
+                                                          favourite = false;
+
+                                                          _database
+                                                              .doc(
+                                                                  documentSnapshot[
+                                                                      index])
+                                                              .update({
+                                                            'favourite':
+                                                                documentSnapshot[
+                                                                            index]
+                                                                        [
+                                                                        "favourite"] =
+                                                                    favourite
+                                                          });
+
+                                                          _favourite
+                                                              .doc(
+                                                                  documentSnapshot[
+                                                                      index])
+                                                              .delete();
+                                                        }
+                                                        print(_favourite);
+                                                      },
+                                                      child: Container(
+                                                        child: Image.asset(
+                                                          "assets/product_description_icon_btn_2.png",
+                                                          color: favourite ==
+                                                                  true
+                                                              ? Selectcolor()
+                                                                  .red_favourite
+                                                              : Selectcolor()
+                                                                  .text_blue_order_color,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
                                                               0.1,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.1,
+                                                          // scale: 0.7,
+                                                          // fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05,
+                                                    ),
+                                                    Container(
                                                       height:
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.1,
-                                                      // scale: 0.7,
-                                                      // fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.05,
-                                                ),
-                                                Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.06,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.14,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      color: Selectcolor()
-                                                          .text_green_order_color),
-                                                  child: Image.asset(
-                                                    "assets/product_description_icon_btn.png",
-                                                    width:
-                                                        MediaQuery.of(context)
+                                                              0.06,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.14,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          color: Selectcolor()
+                                                              .text_green_order_color),
+                                                      child: Image.asset(
+                                                        "assets/product_description_icon_btn.png",
+                                                        width: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width *
                                                             0.03,
-                                                    height:
-                                                        MediaQuery.of(context)
+                                                        height: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .height *
                                                             0.03,
-                                                    // scale: 0.7,
-                                                    // fit: BoxFit.contain,
-                                                  ),
+                                                        // scale: 0.7,
+                                                        // fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Positioned(
+                                  left: MediaQuery.of(context).size.width * 0.5,
+                                  // top: MediaQuery.of(context).size.height * 0.0,
+                                  bottom:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                  child: Container(
+                                    // alignment: Alignment.topRight,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    height: MediaQuery.of(context).size.width *
+                                        0.55,
+                                    child: Image.asset(documentSnapshot['img']),
+                                  ),
+                                )
+                              ],
                             ),
-                            Positioned(
-                              left: MediaQuery.of(context).size.width * 0.5,
-                              // top: MediaQuery.of(context).size.height * 0.0,
-                              bottom: MediaQuery.of(context).size.height * 0.05,
-                              child: Container(
-                                // alignment: Alignment.topRight,
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                height: MediaQuery.of(context).size.width * 0.5,
-                                child: Image.asset("assets/product_img_1.png"),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  );
-                },
-              );
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             }));
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:hackaton/utils/colors.dart';
+import 'package:hackaton/views/home.dart';
 
 // database connection start
 final CollectionReference _database =
@@ -35,7 +36,8 @@ class _productlist_viewState extends State<productlist_view> {
       'fertilizer_contain': fertilizer.text,
       'img': img.text,
       'favourite': favourite,
-      'cart': cart
+      'cart': cart,
+      'bg_color': plant_widget_colors,
     });
     //   description.text= ;
     //   img.text = ;
